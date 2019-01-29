@@ -1,7 +1,12 @@
 <?php
 namespace TDD;
+use \BadMethodCallException;
+
 class Receipt { //creating class Receipt that is used for creating object Receipt in ReceiptTest.php
     public function total(array $items = [], $coupon){ //public method for summing array items and applying the coupon value off of the total
+        if ($coupon > 1.00) { // if coupon value is bigger than 1.00 (100%)
+            throw new BadMethodCallException('Coupon must be less than of equal to 1.00'); // then throw a PHPUnit framework method BadMethodCallExemption with message
+        }
         $sum = array_sum($items); // total sum equals sum of array items
         if (!is_null($coupon)) { // if coupon value is not null
             return $sum - ($sum * $coupon); // then subtract the multiplication of sum and coupon value from the sum and return the value

@@ -46,6 +46,13 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
         );
     }
 
+    public function testTotalException() { // public method for throwing in an exception as summing the total
+        $input = [0,2,5,8];
+        $coupon = 1.20;
+        $this->expectException('BadMethodCallException'); // calling a PHPUnit framework method that takes the class name of the exception that it expects
+        $this->Receipt->total($input, $coupon); // calling a method total that takes in input and coupon value
+    }
+
     public function testPostTaxTotal() { // public method for calculating the total for a collection of items and the tax total and finally summing these values together
         $items = [1,2,5,8];
         $tax = 0.20;
