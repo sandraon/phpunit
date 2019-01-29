@@ -29,7 +29,7 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
 
     public function provideTotal() { // public provider function that returns an array
         return [
-            [[1,2,5,8], 16], // three test cases, where each array of this array will be an input through the test method
+            'ints totaling 16' => [[1,2,5,8], 16], // setting a string key for first array to identify it
             [[-1,2,5,8], 14],
             [[1,2,8], 11],
         ];
