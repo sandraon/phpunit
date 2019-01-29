@@ -36,6 +36,18 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
         );
     }
 
+    public function testPostTaxTotal() { // public method for calculating the total for a collection of items and the tax total and finally summing these values together
+        $Receipt = $this->getMockBuilder('TDD\Receipt') // using getMockBuilder method from PHPUnit framework, passing in class Receipt and making this equal to Receipt object
+            ->setMethods(['tax', 'total']) // method that takes an array of two methods - tax and total - for the test
+            ->getMock(); // method for returning the Receipt object of the mock
+        $Receipt->method('total') // calling a stubbed method by passing in a method total
+            ->will($this->returnValue(10.00)); // calling a method will that says that this stubbed method total will return a value equal to 10.00
+        $Receipt->method('tax') // calling a stubbed method by passing in a method tax
+            ->will($this->returnValue(1.00)); // calling a method will that says that this stubbed method tax will return a value equal to 1.00
+        $result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null); // calling postTaxTotal method by passing in array of items, tax percentage and coupon value (null) and making this equal to result
+        $this->assertEquals(11.00, $result); // comparing expected value and result value
+    }
+
     public function testTax() { // public method for calculating the tax for a receipt
         $inputAmount = 10.00;
         $taxInput = 0.10;

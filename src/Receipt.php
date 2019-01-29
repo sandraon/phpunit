@@ -12,4 +12,9 @@ class Receipt { //creating class Receipt that is used for creating object Receip
     public function tax($amount, $tax) { //public method for calculating tax, taking in amount and tax and returning multiplication of these
         return ($amount * $tax);
     }
+
+    public function postTaxTotal ($items, $tax, $coupon) { // public method for calculating the absolute total by passing in array of items, tax percentage and coupon value
+        $subtotal = $this->total($items, $coupon); // calling total method by passing in array of items and coupon value and making this equal to subtotal
+        return $subtotal + $this->tax($subtotal, $tax); // calling tax method by passing in subtotal and tax percentage and summing the value from this method with subtotal value and returning the absolute total
+    }
 }
