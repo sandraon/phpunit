@@ -14,15 +14,25 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
         unset($this->Receipt);
     }
 
-    public function testTotal() { // public function to compare totals
-        $input = [0,2,5,8];
+    /**
+     * @dataProvider provideTotal
+     */
+    public function testTotal($items, $expected) { // public function to compare totals by passing in items and expected value
         $coupon = null; // creating dummy object by making coupon value equal to null
-        $output = $this->Receipt->total($input, $coupon); // calling a total method by passing in array items from $input and value of coupon and making this equal to output
+        $output = $this->Receipt->total($items, $coupon); // calling a total method by passing in items and value of coupon and making this equal to output
         $this->assertEquals( // method from TestCase class that compares expected value and actual output and shows message when these are not equal
-            15,
+            $expected, // the same value that was passed in testTotal method
             $output,
-            'When summing the total should equal 15'
+            "When summing the total should equal {$expected}" // message using the same expected value that was passed in testTotal method
         );
+    }
+
+    public function provideTotal() { // public provider function that returns an array
+        return [
+            [[1,2,5,8], 16], // three test cases, where each array of this array will be an input through the test method
+            [[-1,2,5,8], 14],
+            [[1,2,8], 11],
+        ];
     }
 
     public function testTotalAndCoupon() { // public method for calculating total with applying coupon value
@@ -49,7 +59,7 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
             ->will($this->returnValue(10.00)); // calling a method will that says that this stubbed method total will return a value equal to 10.00
         $Receipt->expects($this->once()) // method for calling the tax method once
             ->method('tax') // calling a stubbed method by passing in a method tax
-            ->with(10.00, tax) // turning the stub into mock by passing in value of total method and tax
+            ->with(10.00, $tax) // turning the stub into mock by passing in value of total method and tax
             ->will($this->returnValue(1.00)); // calling a method will that says that this stubbed method tax will return a value equal to 1.00
         $result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null); // calling postTaxTotal method by passing in array of items, tax percentage and coupon value (null) and making this equal to result
         $this->assertEquals(11.00, $result); // comparing expected value and result value
