@@ -16,11 +16,23 @@ class ReceiptTest extends TestCase { // creating class that extends TestCase cla
 
     public function testTotal() { // public function to compare totals
         $input = [0,2,5,8];
-        $output = $this->Receipt->total($input); // calling a total method by passing in array items from $input and making this equal to output
+        $coupon = null; // creating dummy object by making coupon value equal to null
+        $output = $this->Receipt->total($input, $coupon); // calling a total method by passing in array items from $input and value of coupon and making this equal to output
         $this->assertEquals( // method from TestCase class that compares expected value and actual output and shows message when these are not equal
             15,
             $output,
             'When summing the total should equal 15'
+        );
+    }
+
+    public function testTotalAndCoupon() { // public method for calculating total with applying coupon value
+        $input = [0,2,5,8];
+        $coupon = 0.20;
+        $output = $this->Receipt->total($input, $coupon); // calling a total method by passing in the input and coupon value and making this equal to output
+        $this->assertEquals( // method from TestCase class that compares expected value and actual output and shows message when these are not equal
+            12,
+            $output,
+            'When summing the total should equal 12'
         );
     }
 
